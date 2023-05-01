@@ -18,8 +18,8 @@
 ##################################################################################################
 
 
-FolderRoot = "~/TCP-TR-NH/"
-FolderScripts = paste(FolderRoot, "/R/", sep="")
+FolderRoot = "~/TCP-TR-NH-Clus"
+FolderScripts = "~/TCP-TR-NH-Clus/R"
 
 
 

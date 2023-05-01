@@ -18,8 +18,8 @@
 ##################################################################################################
 
 
-FolderRoot = "~/TCP-TR-NH/"
-FolderScripts = paste(FolderRoot, "/R/", sep="")
+FolderRoot = "~/TCP-TR-NH-Clus"
+FolderScripts = "~/TCP-TR-NH-Clus/R"
 
 
 ##################################################################################################
@@ -34,6 +34,10 @@ execute <- function(ds, dataset_name, number_dataset,
                     folderResults, diretorios){
 
   diretorios = diretorios
+
+
+  FolderRoot = "~/TCP-TR-NH-Clus"
+  FolderScripts = "~/TCP-TR-NH-Clus/R"
 
   if(number_cores == 0){
     cat("\n\n################################################################################################")
@@ -64,7 +68,7 @@ execute <- function(ds, dataset_name, number_dataset,
   cat("\n# ====> RUN: Get dataset information: ", number_dataset, "          #")
   cat("\n#####################################################################\n\n")
   setwd(FolderRoot)
-  datasets <- data.frame(read.csv("datasets-2022.csv"))
+  datasets <- data.frame(read.csv("datasets-original.csv"))
   ds = datasets[number_dataset,]
   info = infoDataSet(ds)
   dataset_name = toString(ds$Name)
@@ -82,13 +86,13 @@ execute <- function(ds, dataset_name, number_dataset,
                                                        diretorios))
 
   valid_tr = as.numeric(resTHP$valid_length)
-
+  escolhidos = resTHP$tr_valid
 
 
   cat("\n\n###################################################################")
   cat("\n# ====> RUN: BUILD AND TEST PARTITIONS                              #")
   cat("\n#####################################################################\n\n")
-  timeBuild = system.time(resTHP <- buildAndTest(ds,
+  timeBuild = system.time(res <- buildAndTest(ds,
                                                  dataset_name,
                                                  number_dataset,
                                                  number_folds,
@@ -172,10 +176,6 @@ execute <- function(ds, dataset_name, number_dataset,
   cat("\n\n###################################################################")
   cat("\n# ====> RUN: END                                                    #")
   cat("\n#####################################################################\n\n")
-
-
-  if(interactive()==TRUE){ flush.console() }
-  gc()
 }
 
 ##################################################################################################

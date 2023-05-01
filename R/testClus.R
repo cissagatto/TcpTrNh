@@ -18,14 +18,8 @@
 ##################################################################################################
 
 
-FolderRoot = "~/TCP-TR-NH/"
-FolderScripts = paste(FolderRoot, "/R/", sep="")
-
-setwd(FolderScripts)
-source("utils.R")
-
-setwd(FolderScripts)
-source("libraries.R")
+FolderRoot = "~/TCP-TR-NH-Clus"
+FolderScripts = "~/TCP-TR-NH-Clus/R"
 
 ###########################################################################
 #
@@ -33,6 +27,13 @@ source("libraries.R")
 verifyingTresholds <- function(ds, dataset_name, number_dataset,
                                number_folds, number_cores,
                                folderResults, diretorios){
+
+  FolderRoot = "~/TCP-TR-NH-Clus"
+  FolderScripts = "~/TCP-TR-NH-Clus/R"
+
+  setwd(FolderScripts)
+  source("libraries.R")
+  source("utils.R")
 
   retorno = list()
   thresholds = c()
@@ -52,7 +53,7 @@ verifyingTresholds <- function(ds, dataset_name, number_dataset,
     totalCN[f] = nrow(escolhidos)
     todosComNone = rbind(todosComNone, escolhidos)
 
-    resNone = data.frame(filter(escolhidos, method!="none"))
+    resNone = data.frame(filter(escolhidos, escolhidos$method!="none"))
     todosSemNone = rbind(todosSemNone, resNone)
     totalSN[f] = nrow(resNone)
 
@@ -77,7 +78,7 @@ verifyingTresholds <- function(ds, dataset_name, number_dataset,
   x = 1
   while(x<=maximo){
     cat("\n\nX=", x)
-    res[[x]] = filter(todosComNone, sparsification==nomes[x])
+    res[[x]] = filter(todosComNone, todosComNone$sparsification==nomes[x])
     a = nrow(res[[x]])
     totalFolds[x] = a
 
@@ -106,7 +107,8 @@ verifyingTresholds <- function(ds, dataset_name, number_dataset,
   }
 
   # removendo NAS
-  escolhidoFinal = discard(escolhidoFinal, is.na)
+  escolhidoFinal = purrr::discard(escolhidoFinal, is.na)
+  class(escolhidoFinal)
 
   setwd(diretorios$folderTested)
   write.csv(data.frame(escolhidoFinal), "escolhidos.csv")
@@ -130,16 +132,14 @@ buildAndTest <- function(ds, dataset_name, number_dataset,
                          number_folds, number_cores,
                          folderResults, diretorios, valid_tr){
 
-  if(interactive()==TRUE){ flush.console() }
-
   diretorios = diretorios
-
+  # escolhidos = escolhidos
   valid_tr = valid_tr
 
   #cat("\nFrom 1 to 10 folds!")
   f = 1
   buildParalel <- foreach(f = 1:number_folds) %dopar%{
-  #while(f<=number_folds){
+  # while(f<=number_folds){
 
     cat("\n#===============================================#")
     cat("\n#Fold: ", f, "                                  #")
@@ -147,8 +147,8 @@ buildAndTest <- function(ds, dataset_name, number_dataset,
 
     diretorios = diretorios
 
-    FolderRoot = "~/TCP-TR-NH/"
-    FolderScripts = paste(FolderRoot, "/R/", sep="")
+    FolderRoot = "~/TCP-TR-NH-Clus"
+    FolderScripts = "~/TCP-TR-NH-Clus/R"
 
     ###########################################################
     cat("\nLOAD SOURCES")
@@ -243,6 +243,7 @@ buildAndTest <- function(ds, dataset_name, number_dataset,
 
         cat("\n A PARTIÇÃO CERTA PARA O TESTE")
         res_escolhido = filter(info_escolhidos, sparsification == escolhidos2$escolhidoFinal)
+        # res_escolhido = filter(info_escolhidos, sparsification == escolhidos2)
 
         FolderPart = paste(FolderSplit, "/Tr-", as.numeric(value), sep="")
         cat("\n", FolderPart)
@@ -516,7 +517,7 @@ buildAndTest <- function(ds, dataset_name, number_dataset,
 
     #cat("\nfim do fold")
 
-    #f = f + 1
+    # f = f + 1
     gc()
   } # fim do for each
 
@@ -562,9 +563,9 @@ juntaResultados <- function(ds, dataset_name, number_dataset,
 
     valid_tr = valid_tr
 
-    ############################################################################################################
-    FolderRoot = "~/TCP-TR-NH/"
-    FolderScripts = paste(FolderRoot, "/R/", sep="")
+    ####################################################################
+    FolderRoot = "~/TCP-TR-NH-Clus"
+    FolderScripts = "~/TCP-TR-NH-Clus/R"
 
     setwd(FolderScripts)
     source("utils.R")
@@ -729,9 +730,9 @@ avaliaTest <- function(ds, dataset_name, number_dataset,
 
     folders = list()
 
-    ############################################################################################################
-    FolderRoot = "~/TCP-TR-NH/"
-    FolderScripts = paste(FolderRoot, "/R/", sep="")
+    ###################################################
+    FolderRoot = "~/TCP-TR-NH-Clus"
+    FolderScripts = "~/TCP-TR-NH-Clus/R"
 
     setwd(FolderScripts)
     source("utils.R")

@@ -18,8 +18,8 @@
 ##################################################################################################
 
 
-FolderRoot = "~/TCP-TR-NH/"
-FolderScripts = paste(FolderRoot, "/R/", sep="")
+FolderRoot = "~/TCP-TR-NH-Clus"
+FolderScripts = "~/TCP-TR-NH-Clus/R"
 
 
 
@@ -38,10 +38,12 @@ library("utiml", quietly = TRUE)
 library("foreach", quietly = TRUE)
 library("doParallel", quietly = TRUE)
 library("cluster", quietly = TRUE)
-library("cccd", quietly = TRUE)
+#library("cccd", quietly = TRUE)
 library("pvclust", quietly = TRUE)
 library("factoextra", quietly = TRUE)
 library("purrr", quietly = TRUE)
+
+
 
 ################################################################################
 # any errors, please, contact me: elainececiliagatto@gmail.com                 #

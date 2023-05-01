@@ -28,8 +28,8 @@ rm(list=ls())
 cat("\n\n###################################################################")
 cat("\n# ====> TCP-TR-NH: SET WORK SPACE                                   #")
 cat("\n#####################################################################\n\n")
-FolderRoot = "~/TCP-TR-NH/"
-FolderScripts = paste(FolderRoot, "/R/", sep="")
+FolderRoot = "~/TCP-TR-NH-Clus"
+FolderScripts = "~/TCP-TR-NH-Clus/R"
 
 
 cat("\n\n###################################################################")
@@ -41,10 +41,10 @@ options(scipen=20)
 
 
 cat("\n\n###################################################################")
-cat("\n# ====> TCP-TR-NH: READ DATASETS-2022                               #")
+cat("\n# ====> TCP-TR-NH: READ DATASETS                                    #")
 cat("\n#####################################################################\n\n")
 setwd(FolderRoot)
-datasets <- data.frame(read.csv("datasets-2022.csv"))
+datasets <- data.frame(read.csv("datasets-original.csv"))
 
 
 cat("\n\n###################################################################")
@@ -94,13 +94,13 @@ cat("\n# ====> TCP-TR-NH: GET THE DATASET NAME: ", dataset_name, "         #")
 cat("\n#####################################################################\n\n")
 
 
-#ds <- datasets[22,]
-#number_dataset = 22
-#number_cores = 10
-#number_folds = 10
-#similarity = "Jaccard"
-#folderResults = "/dev/shm/res"
-#dataset_name = ds$Name
+# ds <- datasets[41,]
+# number_dataset = 41
+# number_folds = 10
+# number_cores = 1
+# similarity = "Jaccard"
+# folderResults = "/dev/shm/res"
+# dataset_name = ds$Name
 
 
 cat("\n\n###################################################################")
@@ -138,7 +138,7 @@ cat("\n# ====> TCP-TR-NH: ORGANIZANDO AS COISAS                            #")
 cat("\n#####################################################################\n\n")
 
 cat("\nCOPIANDO PARTIÇÕES")
-str20 = paste("cp ~/TCP-TR-NH/Partitions/", similarity ,"/", ds$Name,
+str20 = paste("cp ~/TCP-TR-NH-Clus/Partitions/", similarity ,"/", ds$Name,
               ".tar.gz ", diretorios$folderResults, sep="")
 res = system(str20)
 if(res!=0){break}else{cat("\ncopiou")}
@@ -181,7 +181,7 @@ if(res!=0){break}else{cat("\ncopiou")}
 
 
 cat("\nCOPIANDO DATASETS")
-str26 = paste("cp ~/TCP-TR-NH/Datasets/", ds$Name, ".tar.gz ",
+str26 = paste("cp ~/TCP-TR-NH-Clus/Datasets/", ds$Name, ".tar.gz ",
               diretorios$folderResults, "/datasets/", sep="")
 res=system(str26)
 if(res!=0){break}else{cat("\ncopiou")}
@@ -284,7 +284,7 @@ cat("\n\n###################################################################")
 cat("\n# ====> TCP-TR-NH: COPY TO HOME                                     #")
 cat("\n#####################################################################\n\n")
 
-str0 = "~/TCP-TR-NH/Reports"
+str0 = "~/TCP-TR-NH-Clus/Reports"
 if(dir.exists(str0)==FALSE){dir.create(str0)}
 
 str1 = paste(str0, "/", similarity, sep="")
